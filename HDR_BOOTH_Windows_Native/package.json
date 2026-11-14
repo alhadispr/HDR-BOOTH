@@ -4,6 +4,10 @@
   "description": "Independent photo booth desktop app",
   "main": "main.js",
   "scripts": {
+  "dev": "vite --host 127.0.0.1",
+  "build": "tsc && vite build",
+  "tauri": "tauri"
+}
     "start": "electron .",
     "check": "node --check main.js && node --check preload.js && node --check src/app.js",
     "dist": "electron-builder --win nsis"
@@ -12,6 +16,7 @@
     "better-sqlite3": "^11.8.1"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0"
     "electron": "^34.0.0",
     "electron-builder": "^25.1.8"
   },
