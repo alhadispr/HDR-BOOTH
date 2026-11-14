@@ -1,0 +1,53 @@
+name: Build HDR BOOTH Windows Installer
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'HDR_BOOTH_Windows_Native/**'
+      - '.github/workflows/build-windows.yml'
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: HDR_BOOTH_Windows_Native
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Rust for Windows MSVC
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Install NSIS and WiX Toolset
+        shell: pwsh
+        run: choco install nsis wixtoolset -y --no-progress
+
+      - name: Install JavaScript dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build HDR BOOTH installers (EXE and MSI)
+        run: npm run tauri -- build --bundles nsis,msi
+
+      - name: Upload installer files
+        uses: actions/upload-artifact@v4
+        with:
+          name: HDR-BOOTH-Professional-Windows-x64
+          path: |
+            HDR_BOOTH_Windows_Native/src-tauri/target/release/bundle/nsis/*.exe
+            HDR_BOOTH_Windows_Native/src-tauri/target/release/bundle/msi/*.msi
+          if-no-files-found: error
+          retention-days: 14
