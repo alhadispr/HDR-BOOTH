@@ -1,57 +1,34 @@
-# HDR BOOTH Professional — Windows Edition (Starter)
+# HDR BOOTH — GitHub Draft
+Proyek independen aplikasi photo booth Windows berbasis Electron + SQLite, tema navy/gold.
 
-Modern Windows desktop photobooth application scaffold inspired by the feature areas found in the supplied Fotobu 1.1.1 APK. This is an original implementation scaffold, not a copy of Fotobu source code or assets.
+## Termasuk
+- Dashboard dan workspace lokal
+- CRUD event dasar serta pencatatan sesi
+- Indeks galeri foto lokal
+- Data layout/frame dan voucher
+- Pengaturan studio dan pemilih folder foto
+- Deteksi perangkat Canon dari Windows Plug-and-Play
+- Workflow GitHub Actions untuk membangun installer Windows x64 NSIS
 
-## Included
-- Tauri 2 + Vite + vanilla TypeScript UI shell
-- Dashboard and navigation for Studio, Sessions, Gallery, Frames, Print, QR & Sharing, Sync, Vouchers, Payments, Settings
-- Local demo interactions: create session, countdown/capture simulation, retake/delete, print queue, sync queue, settings persistence in browser local storage
-- Rust/Tauri command scaffold for local app services
-- Camera/printer/cloud integration boundaries and Windows build instructions
+## Status penting
+Ini adalah draft fondasi aplikasi, bukan produk komersial selesai dan bukan salinan Fotobu. UI printer, cloud sync, payment gateway, visual layout editor tingkat lanjut dan tethering DSLR masih memerlukan integrasi produksi. Canon EOS 3000D adalah target uji pertama. Deteksi perangkat saat ini hanya memeriksa inventaris Windows; shutter, transfer foto, pengaturan kamera, dan Live View belum diimplementasikan. Canon SDK tidak disertakan.
 
-## Not yet production-ready
-This source package is a UI + application scaffold. It does not yet contain Canon EOS live-view implementation, Epson printer driver integration, DOKU credentials/API integration, cloud backend, production QR upload endpoint, or a signed installer. These require hardware/model tests, credentials, and backend details.
+## Build lokal Windows
+Pasang Node.js 20 LTS, lalu:
+```powershell
+npm install
+npm run check
+npm start
+npm run dist
+```
+Installer akan muncul di folder `dist/`.
 
-## Requirements
-- Windows 10/11 x64
-- Node.js LTS, Bun or npm
-- Rust stable + MSVC C++ Build Tools
-- WebView2 Runtime
-- Canon EDSDK (if using Canon EDSDK adapter) or validated gphoto2 Windows build
-- Epson printer driver
+## Build via GitHub
+1. Buat repository GitHub baru.
+2. Upload semua isi folder ini ke root repository.
+3. Buka Actions → Build HDR BOOTH for Windows → Run workflow.
+4. Download artifact `HDR-BOOTH-Windows-Installer` setelah workflow selesai.
+5. Alternatif: push tag `v0.1.0` untuk memicu build.
 
-## Run
-1. Install Rust and Visual Studio Build Tools (Desktop development with C++).
-2. Install Node.js LTS.
-3. In this folder: `npm install`
-4. `npm run tauri dev`
-
-## Build installer
-`npm run tauri build`
-
-The generated installer will be under `src-tauri/target/release/bundle/` after building on Windows.
-
-## Local database foundation
-The Rust backend now initializes SQLite in the OS app-data directory and exposes commands for sessions, captures, and key/value settings. The migration is in `src-tauri/migrations/001_init.sql`. The frontend demo screens are still being wired to these commands; do not treat demo interactions as persisted production data until that integration is completed.
-
-## Confirmed deployment scope
-Single Windows workstation per booth. The workstation owns local sessions, photos, SQLite data and print queues. Cloud is used only for guest links, backup/community services and payment verification; no multi-booth PC management is required. See `docs/PRODUCT-REQUIREMENTS.md` for the complete Fotobu feature-parity acceptance checklist.
-
-Latest iteration: session creation and session listing are wired to the SQLite Tauri commands. See `docs/IMPLEMENTATION-STATUS.md` for the exact implementation and validation status.
-
-
-## Automated Windows installer build
-This repository includes `.github/workflows/windows-installer.yml`. Push this folder to a GitHub repository, then open **Actions → Build HDR BOOTH Windows Installer → Run workflow**. The Windows runner builds the NSIS `.exe` and publishes it as a downloadable workflow artifact. A tagged release (`v1.0.0`, for example) also triggers the workflow.
-
-Important: this pipeline packages the current application scaffold. It does **not** mean camera capture, Epson printing, cloud QR delivery, or DOKU payment have passed production/hardware acceptance tests. Those integrations remain prerequisites before using this as a paid-event production booth.
-
-
-## Native Windows capture milestone
-
-Build 2 adds a real WebView camera path for USB webcams and Canon EOS cameras exposed to Windows as a webcam (for example, via the official Canon EOS Webcam Utility where supported). The Studio page requests camera permission using `getUserMedia`, shows a live preview, captures a JPEG frame, and stores it under `Pictures/HDR BOOTH/<session>/` while recording its path in SQLite.
-
-Important limitations:
-- This is not yet direct Canon EDSDK remote control. DSLR live view and shutter control through EDSDK still require the official Canon SDK, a model-specific adapter, and physical validation.
-- Windows camera privacy permissions must allow desktop apps.
-- Printing, cloud gallery/QR, DOKU, voucher validation, licensing, and kiosk lockdown remain incomplete.
-- No Windows installer is claimed as built in this environment. Use the included Windows CI workflow or `scripts/build-windows.ps1` on a Windows 10/11 x64 machine with Node.js and Rust installed.
+## Penyimpanan
+Database SQLite disimpan di folder userData Electron. Cloud sync belum aktif. Jangan masukkan kredensial pembayaran atau data sensitif ke draft ini.
