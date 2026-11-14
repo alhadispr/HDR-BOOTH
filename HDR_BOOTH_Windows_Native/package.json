@@ -1,28 +1,30 @@
 {
   "name": "hdr-booth",
   "version": "0.1.0",
-  "description": "Independent photo booth desktop app",
+  "description": "HDR BOOTH Professional - Desktop Photo Booth",
   "main": "main.js",
   "scripts": {
-  "dev": "vite --host 127.0.0.1",
-  "build": "tsc && vite build",
-  "tauri": "tauri"
-}
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc && vite build",
+    "tauri": "tauri",
     "start": "electron .",
     "check": "node --check main.js && node --check preload.js && node --check src/app.js",
     "dist": "electron-builder --win nsis"
   },
   "dependencies": {
+    "@tauri-apps/api": "^2.0.0",
     "better-sqlite3": "^11.8.1"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.0.0"
+    "@tauri-apps/cli": "^2.0.0",
     "electron": "^34.0.0",
-    "electron-builder": "^25.1.8"
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.6.0",
+    "vite": "^6.0.0"
   },
   "build": {
     "appId": "com.hdrbooth.desktop",
-    "productName": "HDR BOOTH",
+    "productName": "HDR BOOTH Professional",
     "directories": {
       "output": "dist"
     },
