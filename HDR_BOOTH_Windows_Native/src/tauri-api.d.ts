@@ -1,0 +1,1 @@
+declare module '@tauri-apps/api/core' { export function invoke<T=unknown>(cmd:string,args?:any):Promise<T>; export function convertFileSrc(path:string, protocol?:string):string; }
