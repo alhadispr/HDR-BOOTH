@@ -1,0 +1,13 @@
+HDR BOOTH Professional - Development source package
+
+ZIP ini TIDAK berisi installer .exe.
+Ini adalah source project dan script untuk membangun installer di Windows.
+
+Di Windows 10/11 x64:
+1. Install Node.js 22.
+2. Install Rust stable + MSVC C++ Build Tools.
+3. Klik dua kali BUILD-INSTALLER-WINDOWS.bat.
+4. File NSIS .exe (jika build berhasil) ada di:
+   src-tauri\target\release\bundle\nsis\
+
+Tidak ada executable karena workspace ini Linux dan tidak dapat mengompilasi aplikasi native Windows Tauri.
